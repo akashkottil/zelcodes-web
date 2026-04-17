@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafbff;
+  --foreground: #0b0b14;
+  --surface: rgba(255, 255, 255, 0.65);
+  --surface-border: rgba(17, 17, 44, 0.08);
+  --muted: #5b6077;
+  --brand: #6366f1;
+  --brand-2: #ec4899;
+  --brand-3: #38bdf8;
+  --patreon: #f96854;
+}
+
+.dark {
+  --background: #05060f;
+  --foreground: #f4f5ff;
+  --surface: rgba(20, 22, 40, 0.55);
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --muted: #9aa0b8;
+  --brand: #818cf8;
+  --brand-2: #f472b6;
+  --brand-3: #7dd3fc;
+  --patreon: #ff7a66;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-3: var(--brand-3);
+  --color-patreon: var(--patreon);
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+
+  --radius-card: 20px;
+
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-mesh: mesh 18s ease-in-out infinite;
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes mesh {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(3%, -2%, 0) scale(1.05);
+    }
+    66% {
+      transform: translate3d(-2%, 2%, 0) scale(0.97);
+    }
+  }
+
+  @keyframes liquid-flow {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes liquid-sheen-sweep {
+    0%,
+    100% {
+      background-position: -60% 0;
+    }
+    50% {
+      background-position: 160% 0;
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.liquid-text {
+  background-size: 220% 100%;
+  animation: liquid-flow 7s ease-in-out infinite;
+}
+
+.liquid-sheen {
+  background-size: 200% 100%;
+  animation: liquid-sheen-sweep 5s ease-in-out infinite;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--brand) 35%, transparent);
+  color: var(--foreground);
+}
+
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    115deg,
+    var(--brand) 0%,
+    var(--brand-2) 45%,
+    var(--brand-3) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ring-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--brand) 25%, transparent),
+    0 18px 50px -20px color-mix(in oklab, var(--brand) 60%, transparent);
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
