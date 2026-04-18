@@ -74,7 +74,9 @@ export default async function AnimationDetail({ params }: PageProps) {
             <p className="mt-4 text-muted">{animation.longDescription}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              {[animation.difficulty, ...animation.tags].map((t) => (
+              {Array.from(
+                new Set([animation.difficulty, ...animation.tags]),
+              ).map((t) => (
                 <span
                   key={t}
                   className="rounded-full border border-surface-border px-2.5 py-1 text-xs"

@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { animations } from "@/lib/animations";
 import { blogPosts } from "@/lib/blog";
 
+export const dynamic = "force-static";
+
 const base = "https://zelcodes.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {

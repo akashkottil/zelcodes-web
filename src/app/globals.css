@@ -109,6 +109,25 @@
   animation: liquid-sheen-sweep 5s ease-in-out infinite;
 }
 
+/* Multi-layer version: sheen layer is static, colour layer flows. */
+.liquid-glass-text {
+  animation: liquid-flow-multi 8s ease-in-out infinite;
+}
+
+@keyframes liquid-flow-multi {
+  0%,
+  100% {
+    background-position:
+      50% 0%,
+      0% 50%;
+  }
+  50% {
+    background-position:
+      50% 0%,
+      100% 50%;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
